@@ -1,0 +1,340 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+:root {
+  --bg-color: #0d1117;
+  --panel-bg: rgba(22, 27, 34, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --text-primary: #c9d1d9;
+  --text-secondary: #8b949e;
+  --accent: #58a6ff;
+  
+  --citation-high: rgba(35, 134, 54, 0.8);
+  --citation-mid: rgba(210, 153, 34, 0.8);
+  --citation-low: rgba(218, 54, 51, 0.8);
+  --citation-high-bg: rgba(35, 134, 54, 0.2);
+  --citation-mid-bg: rgba(210, 153, 34, 0.2);
+  --citation-low-bg: rgba(218, 54, 51, 0.1);
+
+  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+#root {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  overflow: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Glassmorphism utilities */
+.glass-panel {
+  background: var(--panel-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--glass-border);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}
+
+/* App Layout */
+.app-container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  padding: 16px;
+  gap: 16px;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 260px;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+}
+
+.model-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.model-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: var(--text-secondary);
+  border: 1px solid transparent;
+}
+
+.model-item:hover {
+  background: rgba(255,255,255,0.05);
+}
+
+.model-item.active {
+  background: rgba(255,255,255,0.1);
+  color: var(--text-primary);
+  border-color: var(--glass-border);
+}
+
+.model-icon {
+  width: 18px;
+  height: 18px;
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.search-header {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #fff;
+  letter-spacing: 0.5px;
+}
+
+.search-input-wrapper {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 12px;
+}
+
+.search-input {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 1.1rem;
+  width: 100%;
+  outline: none;
+  font-family: inherit;
+}
+
+/* Chat Area */
+.chat-area {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.message {
+  line-height: 1.6;
+  font-size: 1rem;
+}
+
+.message.user {
+  font-weight: 500;
+  color: #fff;
+}
+
+.message.assistant {
+  color: var(--text-primary);
+}
+
+/* Citations */
+.citation {
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin: 0 2px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  font-size: 0.95em;
+}
+
+.citation.high {
+  background: repeating-linear-gradient(
+    45deg,
+    var(--citation-high-bg),
+    var(--citation-high-bg) 10px,
+    transparent 10px,
+    transparent 20px
+  );
+  border: 1px solid var(--citation-high);
+  color: #7ee787;
+}
+
+.citation.mid {
+  background: var(--citation-mid-bg);
+  border: 1px solid var(--citation-mid);
+  color: #e3b341;
+}
+
+.citation.low {
+  border: 1px solid var(--citation-low);
+  background: transparent;
+  color: #ff7b72;
+}
+
+.citation:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  filter: brightness(1.2);
+}
+
+.citation.active {
+  box-shadow: 0 0 0 2px var(--text-primary);
+}
+
+/* Reference Panel */
+.reference-panel {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 400px;
+  max-width: calc(100vw - 320px);
+  padding: 20px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 100;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.ref-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--glass-border);
+  padding-bottom: 8px;
+}
+
+.ref-title {
+  font-weight: 600;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ref-close {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.ref-close:hover {
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+}
+
+.ref-content {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+.ref-highlight {
+  color: #fff;
+  font-weight: 500;
+  padding: 2px 4px;
+  border-radius: 2px;
+}
+
+.ref-highlight.high {
+  border-left: 3px solid var(--citation-high);
+  background: var(--citation-high-bg);
+}
+
+.ref-highlight.mid {
+  border-left: 3px solid var(--citation-mid);
+  background: var(--citation-mid-bg);
+}
+
+.ref-highlight.low {
+  border-left: 3px solid var(--citation-low);
+  background: var(--citation-low-bg);
+}
+
+/* Legend */
+.legend {
+  margin-top: auto;
+  padding: 16px;
+  border-top: 1px solid var(--glass-border);
+}
+
+.legend-title {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  margin-bottom: 8px;
+}
+
+.legend-box {
+  width: 24px;
+  height: 12px;
+  border-radius: 2px;
+}
+
+.legend-box.high {
+  background: repeating-linear-gradient(45deg, var(--citation-high-bg), var(--citation-high-bg) 4px, transparent 4px, transparent 8px);
+  border: 1px solid var(--citation-high);
+}
+.legend-box.mid {
+  background: var(--citation-mid-bg);
+  border: 1px solid var(--citation-mid);
+}
+.legend-box.low {
+  border: 1px solid var(--citation-low);
+}
